@@ -9,7 +9,7 @@ public class LoginPage extends PageBase {
     private static final By PASSWORD_FIELD = By.id("mailbox:password");
     private static final By SUBMIT_BUTTON = By.id("mailbox:submit");
 
-    public MainPage populateLoginPage(String login, String password) {
+    public MainPage login(String login, String password) {
         fillLoginData(login, password);
         clickSubmitButton();
         return new MainPage();

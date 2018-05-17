@@ -2,10 +2,9 @@ package pages;
 
 import base.PageBase;
 import helpers.Waiters;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.FluentWait;
 
 public class MainPage extends PageBase {
 
@@ -18,22 +17,14 @@ public class MainPage extends PageBase {
     }
 
     public boolean waitInboxHyperlinkDisplayed() {
-        WebDriverWait wait = Waiters.getWaiter(driver);
         wait.until(ExpectedConditions.presenceOfElementLocated(INBOX_HYPERLINK));
 
         return driver.findElement(INBOX_HYPERLINK).isDisplayed();
     }
 
     public boolean waitLogoutHyperlinkDisplayed() {
-        //no one from this waiters does not work
-        //WebDriverWait wait = Waiters.getWaiter(driver);
-        //wait.until(ExpectedConditions.presenceOfElementLocated(LOGOUT_HYPERLINK));
-        //wait.until(ExpectedConditions.visibilityOf(logoutHyperlink));
-        //wait.until((ExpectedCondition<WebElement>) webDriver -> driver.findElement(LOGOUT_HYPERLINK));
-
-        //only this way helps. But is looks like Thread.sleep approach.
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeAsyncScript("window.setTimeout(arguments[arguments.length - 1], 5000);");
+        FluentWait waitHandleStaleRefException = new Waiters().getWaiterIgnoringStaleReferenceException();
+        waitHandleStaleRefException.until(ExpectedConditions.presenceOfElementLocated(LOGOUT_HYPERLINK));
 
         return driver.findElement(LOGOUT_HYPERLINK).isDisplayed();
     }

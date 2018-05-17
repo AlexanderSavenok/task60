@@ -1,15 +1,24 @@
 package helpers;
 
+import base.Driver;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Waiters {
 
-    public static WebDriverWait getWaiter(WebDriver driver) {
-        return getWaiter(driver, 10);
+    private WebDriver driver = Driver.getInstance().driver;
+
+    public FluentWait<WebDriver> getWaiterIgnoringStaleReferenceException() {
+        return getWaiter().ignoring(StaleElementReferenceException.class);
     }
 
-    public static WebDriverWait getWaiter(WebDriver driver, int seconds) {
+    public WebDriverWait getWaiter() {
+        return getWaiter( 10);
+    }
+
+    public WebDriverWait getWaiter(int seconds) {
         return new WebDriverWait(driver, seconds);
     }
 }

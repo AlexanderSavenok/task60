@@ -8,11 +8,11 @@ public class TestBase {
 
     protected WebDriver driver;
 
-    public static String BASE_URL = "http://mail.ru";
+    public static final String BASE_URL = "http://mail.ru";
 
     @BeforeEach
     public void init() {
-        driver = Driver.getDriver();
+        driver = Driver.getInstance().driver;
         driver.get(BASE_URL);
     }
 
@@ -20,7 +20,4 @@ public class TestBase {
     public void tearDown() {
         driver.close();
     }
-
-
-
 }

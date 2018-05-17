@@ -1,41 +1,32 @@
 package base;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-
-import java.util.concurrent.TimeUnit;
 
 public final class Driver {
 
-    private static WebDriver driver;
+    private static Driver instance = null;
 
-    private Driver() {
+    DriverConfiguration driverConfiguration = new DriverConfiguration();
+    public WebDriver driver = initializeWebDriver();
 
-    }
+    private Driver() { }
 
-    public static WebDriver getDriver() {
-        if(driver == null) {
+    public static Driver getInstance() {
+        if(instance == null) {
             synchronized (Driver.class) {
-                if(driver == null) {
-                        driver = getChromeDriver();
+                if(instance == null) {
+                    instance = new Driver();
                 }
             }
         }
-        return driver;
+        return instance;
     }
 
-    private static WebDriver getChromeDriver() {
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chromedriver.exe");
-        driver = new ChromeDriver();
-        defaultSettings(driver);
+    public WebDriver initializeWebDriver() {
+        if(driver == null) {
+            driver = driverConfiguration.getWebDriver();
+        }
         return driver;
-    }
-
-    private static void defaultSettings(WebDriver driver) {
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
-        driver.manage().timeouts().setScriptTimeout(20, TimeUnit.SECONDS);
     }
 }
 
